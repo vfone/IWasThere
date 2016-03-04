@@ -132,6 +132,34 @@
         </div>
   </div> -->
   <div class="aside-contact" ng-class="{filled:(main.commentsJSON.picked).length > 0}" ng-if="(main.commentsJSON.organic).length > 0 || (main.commentsJSON.picked).length > 0">
+  <ul class="share-list" ng-show="(main.commentsJSON.picked).length > 0">
+      <li>
+          <button type="button" class="btn btn-primary btn-sml btn-round" ng-click="showShare = !showShare" ng-init="showShare = false" >
+              <i  ng-show="!showShare" class="fa fa-share-alt"></i>
+              <i  ng-show="showShare" class="fa fa-times"></i>
+            </button>
+      </li>
+      <li ng-show="showShare">
+          <button type="button" class="btn btn-primary btn-sml btn-round">
+              <i class="fa fa-envelope"></i>
+            </button>
+      </li>
+      <li ng-show="showShare">
+          <button type="button" class="btn btn-primary btn-sml btn-round">
+              <i class="fa fa-google"></i>
+            </button>
+      </li>
+      <li ng-show="showShare">
+          <button type="button" class="btn btn-primary btn-sml btn-round">
+              <i class="fa fa-mixcloud"></i>
+            </button>
+      </li>
+      <li ng-show="showShare">
+          <button type="button" class="btn btn-primary btn-sml btn-round"  >
+              <i class="fa fa-hdd-o"></i>
+            </button>
+      </li>
+  </ul>
     <div ng-repeat="(key,comment) in main.commentsJSON.picked" class="card clearfix" ng-class-odd="'odd'" ng-class-even="'even'">
       <p class="pickComment pull-right" ng-click="main.unpickComment(key)"><i class="fa fa-minus"></i></p>
       <div class="comment-user">
