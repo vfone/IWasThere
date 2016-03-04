@@ -68,7 +68,7 @@
     <p>Search for keywords or a topic and harvest the comments to find experts, eyewitnesses and story leads from Facebook users, local media and other sources. </p>
     <p>You can sort and filter comments to find entities and people, with sentiment displayed through colour. </p>
   </div>
-  {{main.result}}
+
   <div class="comment-box" ng-if="(main.commentsJSON.organic).length > 0" ng-hide="main.showChart">
 
     <div ng-repeat="comment in main.commentsJSON.organic" class="comment clearfix">
@@ -113,41 +113,14 @@
     <!--<div class="aside-filter-people">
       <h4>Wordcloud</h4>
     </div> -->
-    <!-- <div class="aside-filter-people">
-      <h4>People</h4>
+    <div class="aside-filter-people">
+      <h4>Entities</h4>
       <ul class="touchable-list ">
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
-        <li><i class="fa fa-user"></i> Tony K</li>
+        <li ng-repeat="entity in main.fakeEntities.entities | orderBy:count | limitTo:5" ng-click="main.addKeyword(entity.text)" >
+            {{entity.text}} <label class="count">{{entity.count}}</label>
+        </li>
       </ul>
-    </div> -->
+    </div>
 
     <!-- <div class="aside-filter-emotion">
             <h4>Emotion</h4>

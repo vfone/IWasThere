@@ -534,7 +534,16 @@ ul.touchable-list{
         border-radius: 3px;
         width: 97%;
         position: relative;
-
+        label.count{
+            color: #ffffff;
+            width:12px;
+            height: 12px;
+            border-radius: 12px;
+            font-size: 10px;
+            line-height: 12px;
+            text-align: center;
+            background-color: rgb(36, 159, 238);
+        }
         &:hover{
             color: #31708f;
             background-color: #d9edf7;
