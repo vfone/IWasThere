@@ -7,18 +7,28 @@
           <li>
             <div class="input-group">
               <span class="input-group-addon" id="search-keyword">Keywords</span>
-              <input type="text" class="form-control" id="search-keyword" ng-model="main.search.keyword"  aria-describedby="search-keyword">
+              <input type="text" class="form-control" id="search-keyword" ng-model="main.search.keyword" aria-describedby="search-keyword">
               <span class="input-group-btn">
                     <button class="btn btn-danger" ng-click="main.addKeyword()" type="button">+</button>
                   </span>
             </div>
           </li>
-          <!-- <li role="separator" class="divider"></li>
-          <li><a href="#">Quick Search</a></li> -->
+          <!-- <li role="separator" class="divider"></li> -->
+          <!-- <li><a href="#">Quick Search</a></li> -->
+          <!-- <li>
+            <div class="input-group">
+              <span class="input-group-addon" id="search-keyword">Channel</span>
+              <input type="text" class="form-control" id="search-keyword" ng-model="main.search.channel" aria-describedby="search-keyword">
+              <span class="input-group-btn">
+                    <button class="btn btn-danger" ng-click="main.addKeyword()" type="button">+</button>
+                  </span>
+            </div>
+          </li> -->
+
         </ul>
       </div>
       <!-- /btn-group -->
-      <input type="text" class="form-control search-topic" ng-model="main.search.topic" ng-init="main.search.topic=''" aria-label="search-topic">
+      <input type="text" class="form-control search-topic" ng-model="main.search.topic" ng-init="main.search.topic='Govenment cuts'" aria-label="search-topic">
       <span class="input-group-btn">
         <button class="btn btn-success search-topic-go" ng-click="main.doSearch()" type="button"><i class="fa fa-search"></i></button>
       </span>
@@ -37,7 +47,7 @@
     </span>
   </div>
 </div>
-<div class="row sourcerow" ng-if="main.pickedSource.length>0">
+<!-- <div class="row sourcerow" ng-if="main.pickedSource.length>0">
   <div class="col-lg-12">
     <span class="tag label label-primary tag_keyword" ng-repeat="key in main.pickedSource">
           <span>{{key}}</span>
@@ -52,25 +62,14 @@
     <a><i ng-click="main.removepickedPeople($index)" class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>
     </span>
   </div>
-</div>
+</div> -->
 <div class="result-wrapper">
-<div class="well description" ng-if="(main.commentsJSON.organic).length === 0">
-    <h4>Read Me</h4>
-    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p>
-
-<p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.</p>
-
-<p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.</p>
-
-<p>Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.</p>
-
-<p>Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue.</p>
-
-<p>Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem.</p>
-
-<p>Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,</p>
-</div>
-<div class="comment-box" ng-if="(main.commentsJSON.organic).length > 0">
+  <div class="well description" ng-if="(main.commentsJSON.organic).length === 0">
+    <p>Search for keywords or a topic and harvest the comments to find experts, eyewitnesses and story leads from Facebook users, local media and other sources. </p>
+    <p>You can sort and filter comments to find entities and people, with sentiment displayed through colour. </p>
+  </div>
+  {{main.result}}
+  <div class="comment-box" ng-if="(main.commentsJSON.organic).length > 0" ng-hide="main.showChart">
 
     <div ng-repeat="comment in main.commentsJSON.organic" class="comment clearfix">
       <div class="comment-user">
@@ -84,8 +83,12 @@
         </div>
       </div>
       <div class="comment-text" ng-class-odd="'odd'" ng-class-even="'even'">
-        <p class="publish-time">{{comment.Date}}</p>
+        <p class="publish-time">{{comment.Date}} <span class="pull-right" ng-class="{red: comment.Like!= 0 }"><i class="fa fa-heart"  ></i> {{comment.Like}}</span></p>
         <p>{{comment.Message}}</p>
+        <div class="comment-entity" ng-if="comment.entities.length>0">
+          <span ng-click="main.addKeyword(entity.text)"  ng-cick='main.addEntity($event)' class="entityTag" ng-class="entity.sentiment.type" ng-repeat="entity in comment.entities">{{entity.text}}</span>
+        </div>
+
         <p class="pickComment pull-right" ng-click="main.pickComment($index)"><i class="fa fa-plus"></i></p>
       </div>
     </div>
@@ -94,22 +97,23 @@
     <div class="aside-filter-source">
       <h4 data-toggle="tooltip" data-placement="top" title="Filter by source channel">Sources</h4>
       <ul class="touchable-list">
-        <li><i class="fa fa-globe"></i> All</li>
-        <li><i class="fa fa-globe"></i> ABC</li>
-        <li><i class="fa fa-globe"></i> Age</li>
-        <li><i class="fa fa-facebook"></i> Facebook</li>
-        <li><i class="fa fa-globe"></i> Guardian</li>
-        <li><i class="fa fa-globe"></i> SBS</li>
-        <li><i class="fa fa-globe"></i> SMH</li>
+        <li ng-click="main.addKeyword('ABC')"><i class="fa fa-globe"></i> ABC</li>
+        <li ng-click="main.addKeyword('Age')" ><i class="fa fa-globe"></i> Age</li>
+        <li ng-click="main.addKeyword('Facebook')"><i class="fa fa-facebook"></i> Facebook</li>
+        <li ng-click="main.addKeyword('Guardian')"><i class="fa fa-globe"></i> Guardian</li>
+        <li ng-click="main.addKeyword('SBS')"><i class="fa fa-globe"></i> SBS</li>
+        <li ng-click="main.addKeyword('SMH')"><i class="fa fa-globe"></i> SMH</li>
       </ul>
     </div>
     <div class="aside-filter-people" >
-      <h4>Trending Topic</h4>
+        <button type="button" class="btn btn-primary btn-sml btn-fullwidth" ng-click="main.showChart = !main.showChart" ng-init="main.showChart=false">
+            <i class="fa fa-pie-chart"></i> Analyze
+          </button>
     </div>
-    <div class="aside-filter-people">
+    <!--<div class="aside-filter-people">
       <h4>Wordcloud</h4>
-    </div>
-    <div class="aside-filter-people">
+    </div> -->
+    <!-- <div class="aside-filter-people">
       <h4>People</h4>
       <ul class="touchable-list ">
         <li><i class="fa fa-user"></i> Tony K</li>
@@ -143,7 +147,7 @@
         <li><i class="fa fa-user"></i> Tony K</li>
         <li><i class="fa fa-user"></i> Tony K</li>
       </ul>
-    </div>
+    </div> -->
 
     <!-- <div class="aside-filter-emotion">
             <h4>Emotion</h4>
@@ -152,29 +156,38 @@
               <button type="button" class="btn btn-default btn-neg"><i class="fa fa-frown-o"></i></button>
               <button type="button" class="btn btn-default btn-nut"><i class="fa fa-meh-o"></i></button>
             </div>
-        </div> -->
-  </div>
-
-  <div class="aside-contact" ng-class="{filled:main.pickedAmt>0}" ng-if="(main.commentsJSON.organic).length > 0 || (main.commentsJSON.picked).length > 0">
+        </div>
+  </div> -->
+  <div class="aside-contact" ng-class="{filled:(main.commentsJSON.picked).length > 0}" ng-if="(main.commentsJSON.organic).length > 0 || (main.commentsJSON.picked).length > 0">
     <div ng-repeat="(key,comment) in main.commentsJSON.picked" class="card clearfix" ng-class-odd="'odd'" ng-class-even="'even'">
-     <p class="pickComment pull-right" ng-click="main.unpickComment(key)"><i class="fa fa-minus"></i></p>
+      <p class="pickComment pull-right" ng-click="main.unpickComment(key)"><i class="fa fa-minus"></i></p>
       <div class="comment-user">
-          <div class="comment-user-avatar">
-            <i class="fa fa-user"></i>
-          </div>
+        <div class="comment-user-avatar">
+          <i class="fa fa-user"></i>
+        </div>
 
         <div class="comment-user-source">
           <h5>{{comment.Name}}</h5>
-          <span>{{comment.Channel}}</span><br/>
+          <span>{{comment.Channel}}</span>
+          <br/>
           <span class="email"><i class="fa fa-envelope"></i> <a ng-href="mailto:{{comment.Email}}">{{comment.Email}}</a></span>
         </div>
       </div>
-      <div class="comment-text" >
-          <p><strong>Note:</strong></p>
+      <div class="comment-text">
+        <p><strong>Note:</strong></p>
         <p class="publish-time">{{comment.Date}}</p>
         <p>{{comment.Message}}</p>
 
       </div>
     </div>
   </div>
+
+
+</div>
+
+
+<div ng-show="main.showChart" class="overlap-window">
+    <h1>Treemap</h1>
+    <p class="closeBtn pull-right" ng-click="main.showChart=false"><i class="fa fa-times-circle"></i></p>
+    <img src="images/chart.png" />
 </div>
